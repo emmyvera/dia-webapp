@@ -1,4 +1,5 @@
 from flask import Flask, request
+from diagnose import diagnoseBP, diagnoseBMI
 import pickle
 import numpy as np
 
@@ -26,9 +27,13 @@ def diagnose():
     prob = model.predict_proba(arr)[:,1][0]
     return {
         "prediction": str(pred),
-        "probability": str(prob)
+        "probability": str(prob),
+        "bp": diagnoseBP(bp),
+        "bpNo": int(bp),
+        "bmi": diagnoseBMI(bmi),
+        "bmiNo":int(bmi)
     }
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="192.168.0.123", port=5000, debug=False)
